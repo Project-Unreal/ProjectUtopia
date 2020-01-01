@@ -1,9 +1,18 @@
-import * as React from 'react';
+import React, {useRef} from 'react';
+import * as THREE from 'three';
+import {Canvas, useFrame, useThree} from "react-three-fiber";
+import Controls from "./Camera/OrbitControlsCamera";
 
-export interface AppProps { compiler: string; framework: string; }
+import {World} from "./World/World";
 
-export class App extends React.Component<AppProps, {}> {
-    render() {
-        return <h1>Hello {this.props.compiler} and {this.props.framework}!</h1>;
-    }
-}
+const App = () => {
+    console.log(window.innerHeight);
+    return (
+        <Canvas shadowMap>
+            <World />
+            <Controls />
+        </Canvas>
+    )
+};
+
+export default App;

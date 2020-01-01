@@ -5,7 +5,7 @@
   "main": "bundle.js",
   "scripts": {
     "dev": "webpack --mode development --config ./webcad/webpack.config.js",
-    "build": "webpack --mode production ./webcad/frontend/src/index.tsx --output /webcad/frontend/static/frontend/main.js"
+    "build": ""
   },
   "keywords": [],
   "author": "",
@@ -14,26 +14,32 @@
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
+    "@types/dat.gui": "^0.7.5",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "@types/stats": "^0.16.30",
     "@types/three": "^0.103.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "css-loader": "^3.4.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.17.0",
     "source-map-loader": "^0.2.4",
+    "style-loader": "^1.1.2",
     "three-orbitcontrols-ts": "^0.1.2",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "dat.gui": "^0.7.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-spring": "^9.0.0-beta.34",
     "react-three-fiber": "^3.0.17",
     "react-use-gesture": "^6.0.14",
+    "stats.js": "^0.17.0",
     "three": "^0.112.1"
   }
 }

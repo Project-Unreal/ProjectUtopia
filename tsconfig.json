@@ -6,10 +6,10 @@
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
-    "//": "https://github.com/react-spring/react-three-fiber/issues/172#issuecomment-541327031",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true
   },
   "include": [
-    "./frontend/src/**/*"
+    "./webcad/frontend/src/**/*"
   ]
 }
