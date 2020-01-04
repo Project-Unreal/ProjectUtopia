@@ -2,13 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
     <title>Index</title>
+    <style>
+        body {
+            background-color: #ccc;
+            color: #000;
+        }
+
+        a {
+            color: #f00;
+        }
+    </style>
 </head>
 <body>
-    <div id="root"></div>
+<div id="root"></div>
 </body>
 
 {% load static %}
-<script src="{% static "frontend/bundle.js" %}"></script>
+<script src="{% static 'frontend/bundle.js' %}"></script>
 
 </html>

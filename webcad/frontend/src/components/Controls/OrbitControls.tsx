@@ -1,17 +1,18 @@
 import React, { useRef } from 'react';
-import {extend, ReactThreeFiber, useFrame, useThree} from 'react-three-fiber';
+import { extend, ReactThreeFiber, useFrame, useThree } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 declare global {
     namespace JSX {
-    // eslint-disable-next-line @typescript-eslint/interface-name-prefix
+        // eslint-disable-next-line @typescript-eslint/interface-name-prefix
         interface IntrinsicElements {
-            orbitControls: ReactThreeFiber.Object3DNode< OrbitControls, typeof OrbitControls >
+            orbitControls: ReactThreeFiber.Object3DNode<OrbitControls, typeof OrbitControls>
         }
     }
 }
 
 extend({OrbitControls});
+
 interface OrbitRef {
     update: Function;
 }
