@@ -9,7 +9,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true
   },
-  "include": [
-    "./webcad/frontend/src/**/*"
-  ]
+  "include": ["./webcad/frontend/src/**/*"],
+  "exclude": ["node_modules", "build", "scripts"]
 }

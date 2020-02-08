@@ -1,0 +1,33 @@
+.vert-button {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  background-image: url("/Icons_UpButton_Clickable.svg");
+  &:hover {
+    background-image: url("/Icons_UpButton_Mouseover.svg");
+  }
+}
+
+.vert-button-up {
+  width: 15px;
+  height: 7.5px;
+  position: relative;
+  background-image: url("/Icons_VertButton_Clickable.svg");
+  &:hover {
+    background-image: url("/Icons_VertButton_Mouseover.svg");
+  }
+}
+
+.vert-button-down {
+  width: 15px;
+  height: 7.5px;
+  transform: rotate(180deg);
+  position: relative;
+  top: 0;
+  left: 0;
+  background-image: url("/Icons_VertButton_Clickable.svg");
+  &:hover {
+    background-image: url("/Icons_VertButton_Mouseover.svg");
+  }
+}

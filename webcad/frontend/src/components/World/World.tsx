@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { a } from 'react-spring/three';
 
-import { extend, ReactThreeFiber } from "react-three-fiber";
+import { Canvas, extend, ReactThreeFiber, useThree } from "react-three-fiber";
 
 import { FogExp2 } from "three";
+import Controls from "./Controls/OrbitControls";
 
 declare global {
     namespace JSX {
@@ -14,6 +15,12 @@ declare global {
     }
 }
 extend({FogExp2});
+
+const GLSize = () => {
+    const {gl} = useThree();
+    gl.setSize(window.innerWidth, window.innerHeight);
+    return <></>;
+};
 
 const World = () => {
     const items = [];
@@ -31,13 +38,19 @@ const World = () => {
     }
     return (
         <>
-            <fogExp2 attach="fog" args={["#CCCCCC", 0.002]}/>
-            <a.mesh>
-                <directionalLight position={[1, 1, 1]} args={["#FFFFFF"]}/>
-                <directionalLight position={[-1, -1, -1]} args={["#002288"]}/>
-                <directionalLight args={["#222222"]}/>
-            </a.mesh>
-            {items}
+            <Canvas shadowMap>
+                <GLSize/>
+                <perspectiveCamera args={[60, window.innerWidth / window.innerHeight, 1, 1000]}
+                                   position={[400, 200, 0]}/>
+                <Controls/>
+                <fogExp2 attach="fog" args={["#CCCCCC", 0.002]}/>
+                <a.mesh>
+                    <directionalLight position={[1, 1, 1]} args={["#FFFFFF"]}/>
+                    <directionalLight position={[-1, -1, -1]} args={["#002288"]}/>
+                    <directionalLight args={["#222222"]}/>
+                </a.mesh>
+                {items}
+            </Canvas>
         </>
     )
 };

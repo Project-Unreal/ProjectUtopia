@@ -1,0 +1,45 @@
+.modeling-tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 263px;
+  height: 100vh;
+  //opacity: 0.5;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.element-label-card {
+  position: relative;
+  top: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.element-label-bar {
+  position: relative;
+  top: 1px;
+  text-align: center;
+}
+
+.position-label-card {
+  display: inline-block;
+  position: relative;
+  top: -48px;
+  left: 0;
+}
+
+#container_position {
+  display: grid;
+  grid-template-columns: 21px 21px 1fr;
+}
+
+.position-X {
+}
+
+.positions {
+  display: inline-block;
+
+  position: relative;
+  left: 5px;
+}

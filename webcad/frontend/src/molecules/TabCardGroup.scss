@@ -1,0 +1,11 @@
+.TabCardGroup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100vh;
+  background: #777777 0 0 no-repeat padding-box;
+  opacity: 0.75;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
