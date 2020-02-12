@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack --mode development --config ./webcad/webpack.config.js",
     "build": "",
-    "storybook": "start-storybook -s ./webcad/frontend/static/frontend/svg"
+    "storybook": "start-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "keywords": [],
   "author": "",
