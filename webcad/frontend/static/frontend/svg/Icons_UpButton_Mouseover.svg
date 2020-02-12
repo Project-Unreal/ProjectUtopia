@@ -33,5 +33,5 @@
 	<stop  offset="1" style="stop-color:#8C8C8C"/>
 </radialGradient>
 <path class="st0" d="M18,20H2c-1.1,0-2-0.9-2-2V2c0-1.1,0.9-2,2-2h16c1.1,0,2,0.9,2,2v16C20,19.1,19.1,20,18,20z"/>
-<polyline class="st1" points="16,13 10,7 4,13 "/>
+<polyline class="st1" points="16,7 10,13 4,7 "/>
 </svg>

@@ -42,7 +42,7 @@ export class SelectBox extends React.Component<SelectBoxProps, SelectBoxState> {
                 {this.state.showPullDown && (
                     <div className="select-content">
                         {this.props.selectList.map((s, i) => {
-                            return <div className="select-element"
+                            return <div className={i===this.state.selected ? "select-element selected" : "select-element"}
                                         key={i}
                                         onClick={() => {
                                             this.setState({selected: i});

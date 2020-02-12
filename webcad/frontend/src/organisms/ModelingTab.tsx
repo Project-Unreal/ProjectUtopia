@@ -26,12 +26,12 @@ export class ModelingTab extends React.Component<Props, any> {
                 <LabelCard LabelName="Global tags"/>
                 <div>
                     <div>
-                        <TextBoxWithLabelAndDoubleButton label="Type" text="D-Vertex"/>
-                        <TextBoxWithLabelAndDoubleButton label="Author" text="Issen"/>
+                        <TextBoxWithLabelAndButton label="Type" text="D-Vertex"/>
+                        <TextBoxWithLabelAndButton label="Author" text="Issen"/>
                     </div>
                     <div>
-                        <TextBoxWithLabelAndDoubleButton label="Update" text="2012.12.01"/>
-                        <TextBoxWithLabelAndDoubleButton label="Approve" text="A. Tadao"/>
+                        <TextBoxWithLabelAndButton label="Update" text="2012.12.01"/>
+                        <TextBoxWithLabelAndButton label="Approve" text="A. Tadao"/>
                     </div>
                 </div>
                 <LabelCard LabelName="Common tags"/>
