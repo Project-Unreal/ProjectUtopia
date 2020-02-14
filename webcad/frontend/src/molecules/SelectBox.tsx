@@ -28,7 +28,7 @@ export class SelectBox extends React.Component<SelectBoxProps, SelectBoxState> {
     }
 
     handleDropDown() {
-        console.log(this.state.showPullDown);
+        // console.log(this.state.showPullDown);
         this.setState({showPullDown: !this.state.showPullDown})
     }
 
@@ -42,15 +42,17 @@ export class SelectBox extends React.Component<SelectBoxProps, SelectBoxState> {
                 {this.state.showPullDown && (
                     <div className="select-content">
                         {this.props.selectList.map((s, i) => {
-                            return <div className={i===this.state.selected ? "select-element selected" : "select-element"}
-                                        key={i}
-                                        onClick={() => {
-                                            this.setState({selected: i});
-                                            this.handleDropDown();
-                                            return this.props.onChange ? this.props.onChange(i) : null
-                                        }}>
-                                    {this.props.selectList[i]}
-                            </div>
+                            return <option className={i===this.state.selected ? "select-element selected" : "select-element"}
+                                           key={i}
+                                           value={i}
+                                           onClick={() => {
+                                               this.setState({selected: i});
+                                               this.handleDropDown();
+                                               this.props.onChange ? this.props.onChange(i) : null;
+                                               return false
+                                           }}>
+                                {this.props.selectList[i]}
+                            </option>
                         })}
                     </div>
                 )}

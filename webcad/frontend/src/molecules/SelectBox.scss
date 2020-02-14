@@ -10,10 +10,8 @@
 }
 
 .select-element {
-  //display: inline-block;
   height: 14.6px;
 
-  //display: flex;
   justify-content: center;
   text-align: left;
   text-indent: 4px;
@@ -31,11 +29,8 @@
   }
 }
 
-.shown {
-  display: inline-block;
-}
-
 .select-box {
+  height: 15px;
   display: inline-block;
   outline: none;
 }
@@ -45,6 +40,8 @@
   position: relative;
   top: -17.4px;
   left: 55px;
+  width: 15px;
+  height: 15px;
 }
 
 .selected {

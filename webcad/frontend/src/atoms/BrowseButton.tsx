@@ -7,12 +7,12 @@ type BrowseButtonProps = {
      * Browse button color
      * @default ""
      */
-    color: string,
+    color: "" | "blue" | "yellow" | "green" | "red",
     /**
      * circle or square
      * @default circle
      */
-    shape: string,
+    shape: "square" | "circle",
     /**
      * if selected
      * @default true
@@ -47,7 +47,8 @@ export class BrowseButton extends React.Component<BrowseButtonProps, BrowseButto
                 (this.state.selected ? this.props.color : null) + " " + this.props.shape}
                  onClick={() => {
                      this.setState({selected: !this.state.selected});
-                     this.props.onClick();
+                     this.props.onClick ? this.props.onClick() : null;
+                     return false
                  }}/>
         )
     }

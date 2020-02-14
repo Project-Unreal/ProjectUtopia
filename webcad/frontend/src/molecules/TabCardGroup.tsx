@@ -8,7 +8,7 @@ export const TabCardGroup = ({ tabs, selected_id }:{ tabs:string[], selected_id:
     return (
         <div className="TabCardGroup">
             {tabs.map((tab, id) =>
-                <div className="TagCard"><TabCard tagName={tab} selected={id === selected_id}/></div>
+                <div key={id} className="TagCard"><TabCard tagName={tab} selected={id === selected_id}/></div>
             )}
         </div>
     )

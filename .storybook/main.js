@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
     stories: ['../webcad/frontend/src/**/*.stories.tsx'],
     webpackFinal: async config => {
@@ -5,12 +7,13 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 use: [
-                    {
-                        loader: require.resolve('awesome-typescript-loader')
-                    },
+                    require.resolve('awesome-typescript-loader'),
                     // Optional
                     {
-                        loader: require.resolve('react-docgen-typescript-loader')
+                        loader: require.resolve('react-docgen-typescript-loader'),
+                        options: {
+                            tsconfigPath: path.resolve(__dirname, "../tsconfig.json")
+                        }
                     }
                 ]
             },
