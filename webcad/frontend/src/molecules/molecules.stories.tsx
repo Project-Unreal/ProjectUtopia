@@ -16,4 +16,4 @@ export const ExampleTextBoxWithLabel = () => <TextBoxWithLabel label={"example"}
 export const ExampleTextBoxWithLabelAndSingleButton = () => <TextBoxWithLabelAndButton label={"example"} text={"example"} />;
 export const ExampleTextBoxWithLabelAndDoubleButton = () => <TextBoxWithLabelAndDoubleButton label={"example"} text={"example"} />;
 export const ExampleSelectBox = () => <SelectBox selectList={["example1", "example2"]} selected={0} onChange={(i) => console.log(i.toString())} />;
-export const ExampleTagWithProperties = () => <TagWithProperties name="1stfloor" color="yellow" isEditable={true} isVisible={true} isLocked={true} isFiltered={false}/>;
+export const ExampleTagWithProperties = () => <TagWithProperties name="1stfloor" color="yellow" isEditable={true} isVisible={true} isLocked={true} isFiltered={false} onClick={null}/>;

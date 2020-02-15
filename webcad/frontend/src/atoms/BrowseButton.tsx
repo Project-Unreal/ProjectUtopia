@@ -25,31 +25,4 @@ type BrowseButtonProps = {
     onClick: (event?: React.MouseEvent<HTMLDivElement>) => any
 }
 
-type BrowseButtonState = {
-    /**
-     * if selected
-     */
-    selected: boolean
-}
-
-export class BrowseButton extends React.Component<BrowseButtonProps, BrowseButtonState> {
-    constructor(props: BrowseButtonProps) {
-        super(props);
-        this.state = {
-            selected: this.props.selected
-        }
-    }
-
-    render() {
-        return (
-            <div className={
-                "browse-button " +
-                (this.state.selected ? this.props.color : null) + " " + this.props.shape}
-                 onClick={() => {
-                     this.setState({selected: !this.state.selected});
-                     this.props.onClick ? this.props.onClick() : null;
-                     return false
-                 }}/>
-        )
-    }
-}
+export const BrowseButton = (props: BrowseButtonProps) => <div className={"browse-button " + (props.selected ? props.color : "") + " " + props.shape} onClick={props.onClick} />;

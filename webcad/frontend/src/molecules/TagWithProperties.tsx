@@ -10,18 +10,27 @@ type TagWithPropertiesProps = {
     isEditable: boolean,
     isVisible: boolean,
     isLocked: boolean,
-    isFiltered: boolean
+    isFiltered: boolean,
+    onClick: () => any
 }
 
-export const TagWithProperties = ({name, color, isEditable, isVisible, isLocked, isFiltered}: TagWithPropertiesProps) => {
-    return (
-        <div className="tag-wrapper">
-            <LabelCard LabelName={name}/>
-            <BrowseButton color={"blue"} shape="square" selected={isEditable} onClick={null} />
-            <BrowseButton color={color} shape="square" selected={true} onClick={null} />
-            <BrowseButton color={"red"} shape="circle" selected={isVisible} onClick={null} />
-            <BrowseButton color={"green"} shape="circle" selected={isLocked} onClick={null} />
-            <BrowseButton color={"blue"} shape="square" selected={isFiltered} onClick={null} />
-        </div>
-    )
+export class TagWithProperties extends React.Component<TagWithPropertiesProps, any> {
+    constructor(props: TagWithPropertiesProps) {
+        super(props);
+    }
+
+    render() {
+        // console.log(this.props.isFiltered);
+        return (
+            <div className="tag-wrapper">
+                <LabelCard LabelName={this.props.name}/>
+                <BrowseButton color={"blue"} shape="square" selected={this.props.isEditable} onClick={null} />
+                <BrowseButton color={this.props.color} shape="square" selected={true} onClick={null} />
+                <BrowseButton color={"red"} shape="circle" selected={this.props.isVisible} onClick={null} />
+                <BrowseButton color={"green"} shape="circle" selected={this.props.isLocked} onClick={null} />
+                <BrowseButton color={"blue"} shape="square" selected={this.props.isFiltered} onClick={this.props.onClick} />
+            </div>
+        )
+    }
+
 };

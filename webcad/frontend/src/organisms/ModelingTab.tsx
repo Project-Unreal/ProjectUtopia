@@ -6,6 +6,7 @@ import "./ModelingTab.scss"
 import { TextBoxWithLabelAndButton, TextBoxWithLabelAndDoubleButton } from "../molecules/TextBoxWithLabel";
 import { SelectBox } from "../molecules/SelectBox";
 import { TagWithProperties } from "../molecules/TagWithProperties";
+import { ElementWithProperties } from "../molecules/ElementWithProperties";
 
 type TagBrowserProps = {
     /**
@@ -56,6 +57,25 @@ type TagBrowserProps = {
 type TagBrowserState = {
     curTagPresetIndex: number,
     curSelectedTagIndexes: number[],
+    curFilteredTagIndexes: number[],
+    curFilteredElementIndexes: number[],
+
+    tags: {
+        id: number,
+        name: string,
+        color: "" | "blue" | "yellow" | "green" | "red",
+        isEditable: boolean,
+        isVisible: boolean,
+        isLocked: boolean,
+        isFiltered: boolean
+    }[],
+    elements: {
+        id: number,
+        name: string,
+        tagId: number,
+        isVisible: boolean,
+        isLocked: boolean
+    }[]
 }
 
 type ElementBrowserProps = {
@@ -71,11 +91,21 @@ type ElementBrowserProps = {
 export class TagBrowser extends React.Component<TagBrowserProps, TagBrowserState> {
     constructor(props: TagBrowserProps) {
         super(props);
+        const curFilteredElementIndexes = [] as number[];
+        for (let i = 0; i < this.props.elements.length; i++) {
+            curFilteredElementIndexes.push(i)
+        }
         this.state = {
             curTagPresetIndex: 0,
             curSelectedTagIndexes: this.props.tagPresets[0].tag_ids,
+            curFilteredTagIndexes: [],
+            curFilteredElementIndexes: curFilteredElementIndexes,
+
+            tags: this.props.tags,
+            elements: this.props.elements
         };
-        this.handleChangeTagPreset = this.handleChangeTagPreset.bind(this)
+        this.handleChangeTagPreset = this.handleChangeTagPreset.bind(this);
+        this.handleClick = this.handleClick.bind(this)
     }
 
     handleChangeTagPreset(i: number) {
@@ -84,11 +114,52 @@ export class TagBrowser extends React.Component<TagBrowserProps, TagBrowserState
             curSelectedTagIndexes: this.props.tagPresets[i].tag_ids
         })
     }
+
+    handleClick(i: number) {
+        let curFilteredTagIndexes = this.state.curFilteredTagIndexes;
+        const curSelectedTagIndexes = this.state.curSelectedTagIndexes;
+        let curFilteredElementIndexes = [] as number[];
+        const indexOfFilteredTag = curFilteredTagIndexes.indexOf(i);
+        const indexOfSelectedTag = curSelectedTagIndexes.indexOf(i);
+        const tags = this.state.tags;
+
+        if (indexOfSelectedTag !== -1) {
+            if (indexOfFilteredTag === -1) {
+                curSelectedTagIndexes.map(i => curFilteredTagIndexes.push(i))
+            } else {
+                curFilteredTagIndexes = curFilteredTagIndexes.filter(ti => curSelectedTagIndexes.indexOf(ti) === -1)
+            }
+        } else {
+            if (indexOfFilteredTag === -1) {
+                curFilteredTagIndexes.push(i)
+            } else {
+                curFilteredTagIndexes = curFilteredTagIndexes.filter(ti => ti !== i)
+            }
+        }
+
+        tags.map(t => t.isFiltered = false);
+        curFilteredTagIndexes.map(i => {
+            tags[i].isFiltered = true
+        });
+
+        if (curFilteredTagIndexes.length === 0) {
+            for (let i = 0; i < this.props.elements.length; i++) {
+                curFilteredElementIndexes.push(i)
+            }
+        } else {
+            const filteredElements = this.props.elements.filter(element => curFilteredTagIndexes.indexOf(element.tagId) !== -1);
+            curFilteredElementIndexes = filteredElements.map(element => element.id);
+        }
+
+        this.setState({
+            curFilteredTagIndexes: curFilteredTagIndexes,
+            curFilteredElementIndexes: curFilteredElementIndexes,
+            tags: tags
+        })
+    }
     
     render() {
         const tagPresetNames = this.props.tagPresets.map((t) => t.name);
-        const filteredTagIds = this.props.tags.filter(tag => tag.isFiltered === true).map(tag => tag.id);
-        const filteredElements = this.props.elements.filter(element => filteredTagIds.indexOf(element.tagId) !== -1);
         return (
             <div className="tag-browser">
                 <div className="tag-preset">
@@ -109,10 +180,17 @@ export class TagBrowser extends React.Component<TagBrowserProps, TagBrowserState
                             <div>L</div>
                             <div>F</div>
                         </div>
-                        {this.props.tags.map((tag, i) => {
+                        {this.state.tags.map((tag, i) => {
+                            // console.log(tag.isFiltered);
                             return (
                                 <div key={i} className={this.state.curSelectedTagIndexes.indexOf(i) !== -1 ? "tag-selected" : ""}>
-                                    <TagWithProperties name={tag.name} color={tag.color} isEditable={tag.isEditable} isVisible={tag.isVisible} isLocked={tag.isLocked} isFiltered={tag.isFiltered}/>
+                                    <TagWithProperties name={tag.name}
+                                                       color={tag.color}
+                                                       isEditable={tag.isEditable}
+                                                       isVisible={tag.isVisible}
+                                                       isLocked={tag.isLocked}
+                                                       isFiltered={tag.isFiltered}
+                                                       onClick={() => this.handleClick(i)}/>
                                 </div>
                             )
                         })}
@@ -123,14 +201,17 @@ export class TagBrowser extends React.Component<TagBrowserProps, TagBrowserState
                             <div>V</div>
                             <div>L</div>
                         </div>
-                        {this.props.elements.map((element, i) => {
-                            return (
-                                <div key={i} className={filteredElements.indexOf(element) === -1 ? "element-unselected" : ""}>{element.name}</div>
-                            )
-                        })}
+                        {this.state.elements.map((e, i) =>
+                                <ElementWithProperties
+                                    key={i}
+                                    name={e.name}
+                                    isVisible={e.isVisible}
+                                    isLocked={e.isLocked}
+                                    isSelected={this.state.curFilteredElementIndexes.indexOf(i) !== -1}
+                                    onClick={null} />
+                        )}
                     </div>
                 </div>
-
             </div>
         )
     }
