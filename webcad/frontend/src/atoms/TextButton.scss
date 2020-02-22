@@ -1,17 +1,19 @@
-.label-card {
+.text-button {
   display: inline-block;
 
+  width: 15px;
+  height: 15px;
+  background: #4a4a4a 0 0 no-repeat padding-box;
+  border-radius: 2px;
+
+  text-indent: 4px;
   font-family: futura-pt, sans-serif;
   font-weight: 300;
   font-style: normal;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0;
-  color: #4a4a4a;
+  color: #ffffff;
   text-shadow: 0 0 4px #00000040;
-  opacity: 1;
-}
-
-.unselected {
-  color: #c5c5c5;
+  vertical-align: middle;
 }

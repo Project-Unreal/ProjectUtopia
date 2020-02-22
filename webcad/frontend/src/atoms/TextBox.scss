@@ -1,32 +1,39 @@
 .TextBox {
   //display: inline-block;
   height: 14.6px;
-  border: 0.4px solid #4A4A4A;
+  border: 0.4px solid #4a4a4a;
   border-radius: 2px;
 
   //display: flex;
   justify-content: center;
   text-align: left;
   text-indent: 4px;
-  font-family: futura-pt,sans-serif;
+  font-family: futura-pt, sans-serif;
   font-weight: 300;
   font-style: normal;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0;
-  color: #4A4A4A;
+  color: #4a4a4a;
   text-shadow: 0 0 4px #00000040;
   opacity: 1;
 
   padding-top: 0;
   padding-bottom: 0;
-  width: 69px;
+  width: auto;
 }
 
-@import url("https://p.typekit.net/p.css?s=1&k=pwj4eno&ht=tk&f=10886&a=34881962&app=typekit&e=css");
+@import url('https://p.typekit.net/p.css?s=1&k=pwj4eno&ht=tk&f=10886&a=34881962&app=typekit&e=css');
 
 @font-face {
-font-family:"futura-pt";
-src:url("https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("woff2"),url("https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("woff"),url("https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("opentype");
-font-display:auto;font-style:normal;font-weight:300;
+  font-family: 'futura-pt';
+  src: url('https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3')
+      format('woff2'),
+    url('https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3')
+      format('woff'),
+    url('https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3')
+      format('opentype');
+  font-display: auto;
+  font-style: normal;
+  font-weight: 300;
 }

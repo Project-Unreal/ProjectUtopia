@@ -1,13 +1,18 @@
-.text-box-stands-aside-label {
+.number-box-stands-aside-label {
   position: relative;
   left: 5px;
   top: 0;
   display: inline-block;
+  width: 100px;
 }
 
-.text-box-button {
+.number-box-button {
   display: inline-block;
   position: relative;
   right: 10px;
   top: 2.6px;
+}
+
+.number-box {
+  width: 100px;
 }

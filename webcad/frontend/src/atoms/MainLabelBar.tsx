@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactElement } from 'react';
 
-import "./MainLabelBar.scss"
+import './MainLabelBar.scss';
 
-export const MainLabelBar = () => {
-    return <div className="main-label-bar"/>
+export const MainLabelBar = (): ReactElement => {
+  return <div className="main-label-bar" />;
 };

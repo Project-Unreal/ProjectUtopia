@@ -1,15 +1,26 @@
-import React from "react";
+import React, { ReactElement } from 'react';
 
-import { TabCard } from "../atoms/TabCard";
+import { TabCard } from '../atoms/TabCard';
 
-import "./TabCardGroup.scss"
+import './TabCardGroup.scss';
 
-export const TabCardGroup = ({ tabs, selected_id }:{ tabs:string[], selected_id: number }) => {
-    return (
-        <div className="TabCardGroup">
-            {tabs.map((tab, id) =>
-                <div key={id} className="TagCard"><TabCard tagName={tab} selected={id === selected_id}/></div>
-            )}
+export const TabCardGroup = ({
+  tabs,
+  selectedId,
+}: {
+  tabs: {
+    id: number;
+    name: string;
+  }[];
+  selectedId: number;
+}): ReactElement => {
+  return (
+    <div className="TabCardGroup">
+      {tabs.map((tab, id) => (
+        <div key={tab.id} className="TagCard">
+          <TabCard tagName={tab.name} selected={id === selectedId} />
         </div>
-    )
+      ))}
+    </div>
+  );
 };

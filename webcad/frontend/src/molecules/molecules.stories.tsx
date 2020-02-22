@@ -1,19 +1,61 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { TabCardGroup } from "./TabCardGroup";
-import { TextBoxWithLabel, TextBoxWithLabelAndButton, TextBoxWithLabelAndDoubleButton } from "./TextBoxWithLabel";
-import { SelectBox } from "./SelectBox";
+import { withKnobs } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
+import { TabCardGroup } from './TabCardGroup';
+import {
+  TextBoxWithLabel,
+  TextBoxWithLabelAndButton,
+} from './TextBoxWithLabel';
+import { SelectBox } from './SelectBox';
 
-import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
-import { action } from "@storybook/addon-actions";
-import { TagWithProperties } from "./TagWithProperties";
+import { TagWithProperties } from './TagWithProperties';
+import { NumberBox } from './NumberBox';
 
 export default { title: 'Molecules', decorators: [withKnobs] };
 
-
-export const TabCardGroupWithExampleTabs = () => <TabCardGroup tabs={["example1", "example2"]} selected_id={1}/>;
-export const ExampleTextBoxWithLabel = () => <TextBoxWithLabel label={"example"} text={"example"} />;
-export const ExampleTextBoxWithLabelAndSingleButton = () => <TextBoxWithLabelAndButton label={"example"} text={"example"} />;
-export const ExampleTextBoxWithLabelAndDoubleButton = () => <TextBoxWithLabelAndDoubleButton label={"example"} text={"example"} />;
-export const ExampleSelectBox = () => <SelectBox selectList={["example1", "example2"]} selected={0} onChange={(i) => console.log(i.toString())} />;
-export const ExampleTagWithProperties = () => <TagWithProperties name="1stfloor" color="yellow" isEditable={true} isVisible={true} isLocked={true} isFiltered={false} onClick={null}/>;
+export const TabCardGroupWithExampleTabs = (): ReactElement => (
+  <TabCardGroup
+    tabs={[
+      { id: 0, name: 'example1' },
+      { id: 1, name: 'example2' },
+    ]}
+    selectedId={1}
+  />
+);
+export const ExampleTextBoxWithLabel = (): ReactElement => (
+  <TextBoxWithLabel label="example" text="example" />
+);
+export const ExampleTextBoxWithLabelAndSingleButton = (): ReactElement => (
+  <TextBoxWithLabelAndButton label="example" text="example" />
+);
+export const ExampleSelectBox = (): ReactElement => (
+  <SelectBox
+    selectList={[
+      { id: 0, name: 'example1' },
+      { id: 1, name: 'example2' },
+    ]}
+    selected={0}
+    onChange={(i): boolean => {
+      action(i.toString());
+      return true;
+    }}
+  />
+);
+export const ExampleTagWithProperties = (): ReactElement => (
+  <TagWithProperties
+    name="1stfloor"
+    color="yellow"
+    isEditable
+    isVisible
+    isLocked
+    isFiltered={false}
+    onLockedClick={null}
+    onEditableClick={null}
+    onVisibleClick={null}
+    onFilteredClick={null}
+  />
+);
+export const ExampleNumberBox = (): ReactElement => (
+  <NumberBox label="Number" initial={10.0} delta={2.5} />
+);
