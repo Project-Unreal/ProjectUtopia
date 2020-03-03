@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { createRef, ReactElement, RefObject } from 'react';
 
 import './SelectBox.scss';
 import { TextBox } from '../atoms/TextBox';
@@ -9,57 +9,75 @@ type SelectBoxProps = {
     id: number;
     name: string;
   }[];
-  selected: number;
+  selectedId: number;
   onChange?: (value: string | number) => void;
+  editable?: boolean;
 };
 
 type SelectBoxState = {
-  selected: number;
+  selectedId: number;
   showPullDown: boolean;
+  editable: boolean;
 };
 
 export class SelectBox extends React.Component<SelectBoxProps, SelectBoxState> {
+  // private readonly textBoxRef: RefObject<TextBox>;
+
   constructor(props: SelectBoxProps) {
     super(props);
-    const { selected } = this.props;
-    this.state = { selected, showPullDown: false };
-
+    const { selectedId, editable } = this.props;
+    this.state = { selectedId, editable, showPullDown: false };
+    // this.textBoxRef = createRef();
     this.handleDropDown = this.handleDropDown.bind(this);
   }
 
-  handleDropDown(): void {
-    // console.log(this.state.showPullDown);
+  handleDropDown(): boolean {
     const { showPullDown } = this.state;
     this.setState({ showPullDown: !showPullDown });
+    return true;
+  }
+
+  handleClear(): boolean {
+    this.setState({ selectedId: 0 });
+    return true;
+  }
+
+  handleEditable(): void {
+    this.setState({ editable: true });
+    // this.textBoxRef.current.handleFocus();
   }
 
   render(): ReactElement {
     const { selectList, onChange } = this.props;
-    const { selected, showPullDown } = this.state;
+    const { selectedId, showPullDown, editable } = this.state;
     return (
       <div
         className="select-box"
-        onBlur={(): void => this.handleDropDown()}
-        onFocus={(): void => this.handleDropDown()}
+        onFocus={(): boolean => this.handleDropDown()}
         tabIndex={-1}
       >
-        <TextBox text={selectList.find(s => s.id === selected).name} />
+        <TextBox
+          // ref={this.textBoxRef}
+          text={selectList.find(s => s.id === selectedId).name}
+          editable={editable}
+        />
         {showPullDown && (
           <div className="select-content">
             {selectList.map(({ id, name }) => {
               return (
                 <option
                   className={
-                    id === selected
+                    id === selectedId
                       ? 'select-element selected'
                       : 'select-element'
                   }
                   key={id}
                   value={id}
-                  onClick={(): void => {
-                    this.setState({ selected: id });
+                  onClick={(): boolean => {
+                    this.setState({ selectedId: id });
                     this.handleDropDown();
                     onChange(id);
+                    return true;
                   }}
                 >
                   {name}
@@ -69,7 +87,7 @@ export class SelectBox extends React.Component<SelectBoxProps, SelectBoxState> {
           </div>
         )}
         <div className="select-button">
-          <SingleVertButton onClick={(): void => this.handleDropDown()} />
+          <SingleVertButton onClick={this.handleDropDown} />
         </div>
       </div>
     );

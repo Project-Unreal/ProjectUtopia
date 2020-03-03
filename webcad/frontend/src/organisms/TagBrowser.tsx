@@ -23,15 +23,17 @@ type element = {
   isLocked: boolean;
 };
 
+type tagPreset = {
+  id: number;
+  name: string;
+  tagIds: number[];
+};
+
 type TagBrowserProps = {
   /**
    * list of tag presets
    */
-  tagPresets: {
-    id: number;
-    name: string;
-    tagIds: number[];
-  }[];
+  tagPresets: tagPreset[];
   /**
    * list of tags
    */
@@ -58,55 +60,64 @@ type TagBrowserProps = {
 
 type TagBrowserState = {
   curTagPresetId: number;
-
-  isSPressed: boolean;
-  isAPressed: boolean;
-  isRPressed: boolean;
-  isDPressed: boolean;
-
+  tagPresets: tagPreset[];
   tags: tag[];
   elements: element[];
+
+  curSelectedTagIds: number[];
+
+  isInsertPressed: boolean;
+  isRemovePressed: boolean;
 };
 
 export class TagBrowser extends React.Component<
   TagBrowserProps,
   TagBrowserState
 > {
+  private readonly tagPresetRef: React.RefObject<SelectBox>;
+
   constructor(props: TagBrowserProps) {
     super(props);
     const curFilteredElementIndexes = [] as number[];
-    const { elements, tags } = this.props;
+    const { elements, tags, tagPresets } = this.props;
     for (let i = 0; i < elements.length; i += 1) {
       curFilteredElementIndexes.push(i);
     }
+    this.tagPresetRef = React.createRef();
     this.state = {
       curTagPresetId: 0,
+      tagPresets,
       tags,
       elements,
 
-      isSPressed: false,
-      isAPressed: false,
-      isRPressed: false,
-      isDPressed: false,
+      curSelectedTagIds: [],
+
+      isRemovePressed: false,
+      isInsertPressed: false,
     };
     this.handleChangeTagPreset = this.handleChangeTagPreset.bind(this);
-    this.handleTagClick = this.handleTagClick.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
+    this.handleTagModeClick = this.handleTagModeClick.bind(this);
+    this.handleTagDelete = this.handleTagDelete.bind(this);
+    this.handleTagCreatePrepare = this.handleTagCreatePrepare.bind(this);
+
+    this.handlePressInsert = this.handlePressInsert.bind(this);
+    this.handlePressRemove = this.handlePressRemove.bind(this);
   }
 
   handleChangeTagPreset(i: number): boolean {
+    const { tagPresets } = this.props;
     this.setState({
       curTagPresetId: i,
+      curSelectedTagIds: Array.from(tagPresets.find(tp => tp.id === i).tagIds),
     });
     return true;
   }
 
-  handleTagClick(
+  handleTagModeClick(
     id: number,
     mode: 'isEditable' | 'isVisible' | 'isLocked' | 'isFiltered',
   ): boolean {
-    const { tags, curTagPresetId } = this.state;
-    const { tagPresets } = this.props;
+    const { tags, curTagPresetId, tagPresets } = this.state;
 
     const curTagPreset = tagPresets.find(tp => tp.id === curTagPresetId);
     const updateTags = (): tag[] => {
@@ -127,65 +138,105 @@ export class TagBrowser extends React.Component<
     return true;
   }
 
-  handleSelect(): boolean {
-    const { isSPressed } = this.state;
+  handlePressInsert(): boolean {
     this.setState({
-      isSPressed: !isSPressed,
-      isAPressed: false,
-      isRPressed: false,
-      isDPressed: false,
+      isRemovePressed: false,
+      isInsertPressed: true,
     });
     return true;
   }
 
-  handleAdd(): boolean {
-    const { isAPressed } = this.state;
+  handlePressRemove(): boolean {
     this.setState({
-      isSPressed: false,
-      isAPressed: !isAPressed,
-      isRPressed: false,
-      isDPressed: false,
+      isRemovePressed: true,
+      isInsertPressed: false,
     });
     return true;
   }
 
-  handleRemove(): boolean {
-    const { isRPressed } = this.state;
-    this.setState({
-      isSPressed: false,
-      isAPressed: false,
-      isRPressed: !isRPressed,
-      isDPressed: false,
-    });
+  handleTagLabelClick(event: React.MouseEvent, tagId: number): boolean {
+    const { isInsertPressed, isRemovePressed } = this.state;
+    const { curTagPresetId, tagPresets } = this.state;
+    const newTagPreset = tagPresets.find(tp => tp.id === curTagPresetId);
+
+    if (isInsertPressed) {
+      if (newTagPreset.tagIds.indexOf(tagId) === -1)
+        newTagPreset.tagIds.push(tagId);
+
+      this.setState({
+        tagPresets: tagPresets.map(tp =>
+          tp.id === newTagPreset.id ? newTagPreset : tp,
+        ),
+        isInsertPressed: false,
+      });
+    } else if (isRemovePressed) {
+      if (newTagPreset.tagIds.indexOf(tagId) !== -1)
+        newTagPreset.tagIds = newTagPreset.tagIds.filter(i => i !== tagId);
+
+      this.setState({
+        tagPresets: tagPresets.map(tp =>
+          tp.id === newTagPreset.id ? newTagPreset : tp,
+        ),
+        isRemovePressed: false,
+      });
+    } else if (event.ctrlKey) {
+      const { curSelectedTagIds } = this.state;
+      if (curSelectedTagIds.indexOf(tagId) === -1) {
+        const newSelectedTagIds = curSelectedTagIds;
+        newSelectedTagIds.push(tagId);
+        this.tagPresetRef.current.handleClear();
+        this.setState({
+          curTagPresetId: 0,
+          curSelectedTagIds: newSelectedTagIds,
+        });
+      } else {
+        this.tagPresetRef.current.handleClear();
+        this.setState({
+          curTagPresetId: 0,
+          curSelectedTagIds: curSelectedTagIds.filter(i => i !== tagId),
+        });
+      }
+    } else {
+      this.tagPresetRef.current.handleClear();
+      this.setState({
+        curTagPresetId: 0,
+        curSelectedTagIds: [tagId],
+      });
+    }
     return true;
   }
 
-  handleDelete(): boolean {
-    const { isDPressed } = this.state;
-    this.setState({
-      isSPressed: false,
-      isAPressed: false,
-      isRPressed: false,
-      isDPressed: !isDPressed,
-    });
+  handleTagDelete(): boolean {
+    const { curTagPresetId, tagPresets } = this.state;
+    if (curTagPresetId !== 0) {
+      this.tagPresetRef.current.handleClear();
+      this.setState({
+        tagPresets: tagPresets.filter(tp => tp.id !== curTagPresetId),
+        curSelectedTagIds: [],
+      });
+    }
     return true;
   }
 
-  render(): ReactElement {
-    const { tagPresets } = this.props;
-    const { tags, elements, curTagPresetId } = this.state;
+  handleTagCreatePrepare(): boolean {
+    this.tagPresetRef.current.handleEditable();
+    return true;
+  }
+
+  render(): React.ReactElement {
+    const {
+      tags,
+      elements,
+      curTagPresetId,
+      tagPresets,
+      curSelectedTagIds,
+    } = this.state;
+
+    const { tagPresetRef } = this;
 
     const tagPresetNames = tagPresets.map(t => {
       return { id: t.id, name: t.name };
     });
-
-    const curSelectedTagIds = [
-      ...new Set(
-        tagPresets
-          .find(tp => tp.id === curTagPresetId)
-          .tagIds.reduce((ids, tIds) => ids.concat(tIds), [] as number[]),
-      ),
-    ];
 
     const curFilteredTagIds = tags.filter(t => t.isFiltered).map(t => t.id);
 
@@ -206,26 +257,27 @@ export class TagBrowser extends React.Component<
       <div className="tag-browser">
         <div className="tag-preset">
           <div className="label">
-            <LabelCard LabelName="Tag preset" />
+            <LabelCard LabelName="Tag preset" onClick={null} />
           </div>
           <div className="tag-preset-select-box">
             <SelectBox
+              ref={tagPresetRef}
               selectList={tagPresetNames}
-              selected={curTagPresetId}
+              selectedId={curTagPresetId}
               onChange={this.handleChangeTagPreset}
             />
           </div>
           <div className="tag-preset-button">
-            <TextButton text="S" onClick={(): boolean => this.handleSelect()} />
+            <TextButton text="C" onClick={() => this.handleTagCreatePrepare} />
           </div>
           <div className="tag-preset-button">
-            <TextButton text="A" onClick={(): boolean => this.handleAdd()} />
+            <TextButton text="A" onClick={this.handlePressInsert} />
           </div>
           <div className="tag-preset-button">
-            <TextButton text="R" onClick={(): boolean => this.handleRemove()} />
+            <TextButton text="R" onClick={this.handlePressRemove} />
           </div>
           <div className="tag-preset-button">
-            <TextButton text="D" onClick={(): boolean => this.handleDelete()} />
+            <TextButton text="D" onClick={this.handleTagDelete} />
           </div>
         </div>
         <div className="tables">
@@ -253,17 +305,20 @@ export class TagBrowser extends React.Component<
                     isVisible={t.isVisible}
                     isLocked={t.isLocked}
                     isFiltered={curFilteredTagIds.indexOf(t.id) !== -1}
+                    onTagClick={(e: React.MouseEvent) =>
+                      this.handleTagLabelClick(e, t.id)
+                    }
                     onEditableClick={(): boolean =>
-                      this.handleTagClick(t.id, 'isEditable')
+                      this.handleTagModeClick(t.id, 'isEditable')
                     }
                     onVisibleClick={(): boolean =>
-                      this.handleTagClick(t.id, 'isVisible')
+                      this.handleTagModeClick(t.id, 'isVisible')
                     }
                     onLockedClick={(): boolean =>
-                      this.handleTagClick(t.id, 'isLocked')
+                      this.handleTagModeClick(t.id, 'isLocked')
                     }
                     onFilteredClick={(): boolean =>
-                      this.handleTagClick(t.id, 'isFiltered')
+                      this.handleTagModeClick(t.id, 'isFiltered')
                     }
                   />
                 </div>
@@ -283,7 +338,6 @@ export class TagBrowser extends React.Component<
                 isVisible={e.isVisible}
                 isLocked={e.isLocked}
                 isSelected={curFilteredElementIds.indexOf(i) !== -1}
-                onClick={null}
               />
             ))}
           </div>

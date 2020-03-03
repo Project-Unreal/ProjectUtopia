@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { LabelCard } from '../atoms/LabelCard';
-import { BrowseButton } from '../atoms/BrowseButton';
+import { ToggleButton } from '../atoms/ToggleButton';
 
 import './ElementWithProperties.scss';
 
@@ -9,7 +9,8 @@ type ElementWithPropertiesProps = {
   isVisible: boolean;
   isLocked: boolean;
   isSelected: boolean;
-  onClick: () => void;
+  onVisibleClick?: (e: React.MouseEvent) => void;
+  onLockedClick?: (e: React.MouseEvent) => void;
 };
 
 export const ElementWithProperties = ({
@@ -17,23 +18,14 @@ export const ElementWithProperties = ({
   isVisible,
   isLocked,
   isSelected,
-  onClick,
+  onVisibleClick,
+  onLockedClick,
 }: ElementWithPropertiesProps): ReactElement => {
   return (
     <div className="element-wrapper">
       <LabelCard LabelName={name} selected={isSelected} />
-      <BrowseButton
-        color="red"
-        shape="circle"
-        selected={isVisible}
-        onClick={onClick}
-      />
-      <BrowseButton
-        color="green"
-        shape="circle"
-        selected={isLocked}
-        onClick={onClick}
-      />
+      <ToggleButton selected={isVisible} onClick={onVisibleClick} />
+      <ToggleButton selected={isLocked} onClick={onLockedClick} />
     </div>
   );
 };

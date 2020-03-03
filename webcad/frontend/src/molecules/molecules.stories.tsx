@@ -35,11 +35,12 @@ export const ExampleSelectBox = (): ReactElement => (
       { id: 0, name: 'example1' },
       { id: 1, name: 'example2' },
     ]}
-    selected={0}
+    selectedId={0}
     onChange={(i): boolean => {
       action(i.toString());
       return true;
     }}
+    editable
   />
 );
 export const ExampleTagWithProperties = (): ReactElement => (
@@ -50,6 +51,7 @@ export const ExampleTagWithProperties = (): ReactElement => (
     isVisible
     isLocked
     isFiltered={false}
+    onTagClick={(): boolean => true}
     onLockedClick={null}
     onEditableClick={null}
     onVisibleClick={null}

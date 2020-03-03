@@ -3,6 +3,7 @@ import { LabelCard } from '../atoms/LabelCard';
 import { BrowseButton } from '../atoms/BrowseButton';
 
 import './TagWithProperties.scss';
+import { ToggleButton } from '../atoms/ToggleButton';
 
 type TagWithPropertiesProps = {
   name: string;
@@ -11,6 +12,7 @@ type TagWithPropertiesProps = {
   isVisible: boolean;
   isLocked: boolean;
   isFiltered: boolean;
+  onTagClick: (e: React.MouseEvent) => boolean;
   onEditableClick: () => boolean;
   onVisibleClick: () => boolean;
   onLockedClick: () => boolean;
@@ -24,6 +26,7 @@ export const TagWithProperties = ({
   isVisible,
   isLocked,
   isFiltered,
+  onTagClick,
   onEditableClick,
   onVisibleClick,
   onLockedClick,
@@ -31,32 +34,12 @@ export const TagWithProperties = ({
 }: TagWithPropertiesProps): ReactElement => {
   return (
     <div className="tag-wrapper">
-      <LabelCard LabelName={name} />
-      <BrowseButton
-        color="blue"
-        shape="square"
-        selected={isEditable}
-        onClick={onEditableClick}
-      />
+      <LabelCard LabelName={name} onClick={onTagClick} />
       <BrowseButton color={color} shape="square" selected onClick={null} />
-      <BrowseButton
-        color="red"
-        shape="circle"
-        selected={isVisible}
-        onClick={onVisibleClick}
-      />
-      <BrowseButton
-        color="green"
-        shape="circle"
-        selected={isLocked}
-        onClick={onLockedClick}
-      />
-      <BrowseButton
-        color="blue"
-        shape="square"
-        selected={isFiltered}
-        onClick={onFilteredClick}
-      />
+      <ToggleButton selected={isEditable} onClick={onEditableClick} />
+      <ToggleButton selected={isVisible} onClick={onVisibleClick} />
+      <ToggleButton selected={isLocked} onClick={onLockedClick} />
+      <ToggleButton selected={isFiltered} onClick={onFilteredClick} />
     </div>
   );
 };

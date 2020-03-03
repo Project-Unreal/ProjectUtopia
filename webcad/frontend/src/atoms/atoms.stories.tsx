@@ -9,6 +9,8 @@ import { TextBox } from './TextBox';
 import { DoubleVertButton, SingleVertButton } from './VertButton';
 import { BrowseButton } from './BrowseButton';
 import { TextButton } from './TextButton';
+import { ToggleButton } from './ToggleButton';
+import { Compass } from './Compass';
 
 export default { title: 'Atoms', decorators: [withKnobs] };
 
@@ -19,9 +21,18 @@ export const SelectedTabCardWithText = (): ReactElement => (
   <TabCard tagName="Example" selected />
 );
 export const ExampleLabel = (): ReactElement => (
-  <LabelCard LabelName="Example" />
+  <LabelCard
+    LabelName="Example"
+    onClick={(): boolean => {
+      action('Clicked.');
+      return true;
+    }}
+  />
 );
 export const ExampleTextBox = (): ReactElement => <TextBox text="Example" />;
+export const ExampleEditableTextBox = (): ReactElement => (
+  <TextBox text="Example" editable />
+);
 
 export const LabelBar = (): ReactElement => <MainLabelBar />;
 export const ActiveDoubleVertButton = (): ReactElement => (
@@ -54,4 +65,14 @@ export const ExampleBrowseButton = (): ReactElement => {
 
 export const ExampleTextButton = (): ReactElement => (
   <TextButton text={select('text', ['S', 'R', 'A', 'D'], 'S')} onClick={null} />
+);
+
+export const ExampleToggleButton = (): ReactElement => (
+  <ToggleButton
+    selected={select('selected', ['false', 'true'], 'true') === 'true'}
+  />
+);
+
+export const ExampleCompass = (): ReactElement => (
+  <Compass onRotateStart={() => console.log('START')} />
 );
